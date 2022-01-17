@@ -1,0 +1,26 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+    <a href="{% url 'home' %}">UT</a>
+    <button class="navbar-toggler ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class = "collapse navbar-collapse flex-grow-0" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'accounts:signout' %}"><i class="fas fa-sign-out-alt"></i> 로그아웃</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'accounts:signin' %}?next={{request.path}}"><i
+                                class="fas fa-sign-in-alt"></i> 로그인</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'accounts:signup' %}"><i class="fas fa-user-plus"></i> 회원가입</a>
+                    </li>
+                    {% endif %}
+            </li>
+        </ul>
+    </div>
+</nav>
