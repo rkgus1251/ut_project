@@ -1,8 +1,77 @@
 {% extends "layout.html" %}
+{% load django_bootstrap5 %}
+
+{% block script %}
+<script language="JavaScript">
+    function MySliderBox1__init(){
+        var swiper = new Swiper(".my-slider-box-1 .mySwiper", {
+            pagination: {
+                el: ".swiper-pagination",
+                clickable: true,
+                renderBullet: function (index, className) {
+                    return '<span class="' + className + '">' + (index + 1) + "</span>";
+                },
+            }
+        });
+    }
+    MySliderBox1__init();
+
+
+
+
+</script>
+{% endblock %}
 
 {% block content %}
-<section class="t-flex-1 t-flex t-justify-center t-items-center">
-    <h1 class="t-text-[20px] t-font-bold">BBIYONG</h1>
-</section>
+
+<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css"/>
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+
+<div class="my-slider-box-1">
+    <div class="swiper mySwiper">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide">{% include 'calendar.html' %}</div>
+            <div class="swiper-slide" style="background-color:orange">Slide 2</div>
+            <div class="swiper-slide" style="background-color:yellow">Slide 3</div>
+
+        </div>
+        <div class="swiper-pagination"></div>
+    </div>
+</div>
+
+<style>
+body {
+  margin: 0;
+}
+
+.my-slider-box-1 .swiper-slide {
+    height: calc(100vh - 115px);
+}
+
+.swiper-pagination {
+  display: flex;
+  justify-content: space-around;
+}
+
+.swiper-pagination-bullet {
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  line-height: 20px;
+  font-size: 15px;
+  margin: 10px;
+  color: #000;
+  opacity: 1;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.swiper-pagination-bullet-active {
+  color: #fff;
+  background: #007aff;
+}
+
+
+</style>
 
 {% endblock %}

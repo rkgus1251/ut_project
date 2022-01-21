@@ -1,126 +1,127 @@
-{% extends "layout.html" %}
-{% load django_bootstrap5 %}
-
 {% block script %}
-<script language="javascript">
-    var date = new Date();
-    var today = new Date();
-    var year = today.getFullYear();
-    var month = today.getMonth();
-    var day = today.getDay();
-    month += 1;
-    function dayy(year, month){ //월의 일수를 구함
-        switch(month){
-            case 1: case 3: case 5: case 7: case 8: case 10: case 12:
-            return 31;
+<script>
+        $(function(){
+            var today = new Date();
+            var date = new Date();
 
-            case 4: case 6: case 9: case 11:
-            return 30;
+            $("input[name=preMon]").click(function() { // 이전달
+                $("#calendar > tbody > td").remove();
+                $("#calendar > tbody > tr").remove();
+                today = new Date ( today.getFullYear(), today.getMonth()-1, today.getDate());
+                buildCalendar();
+            })
 
-            case 2:
-            if(((year%400)==0||(year%4)==0&&(year%100)!=0)){
-                return 29;
+            $("input[name=nextMon]").click(function(){ //다음달
+                $("#calendar > tbody > td").remove();
+                $("#calendar > tbody > tr").remove();
+                today = new Date ( today.getFullYear(), today.getMonth()+1, today.getDate());
+                buildCalendar();
+            })
+
+
+            function buildCalendar() {
+
+                nowYear = today.getFullYear();
+                nowMonth = today.getMonth();
+                firstDate = new Date(nowYear,nowMonth,1).getDate();
+                firstDay = new Date(nowYear,nowMonth,1).getDay(); //1st의 요일
+                lastDate = new Date(nowYear,nowMonth+1,0).getDate();
+
+                if((nowYear%4===0 && nowYear % 100 !==0) || nowYear%400===0) { //윤년 적용
+                    lastDate[1]=29;
+                }
+
+                $(".year_mon").text(nowYear+"년 "+(nowMonth+1)+"월");
+
+                for (i=0; i<firstDay; i++) { //첫번째 줄 빈칸
+                    $("#calendar tbody:last").append("<td></td>");
+                }
+                for (i=1; i <=lastDate; i++){ // 날짜 채우기
+                    plusDate = new Date(nowYear,nowMonth,i).getDay();
+                    if (plusDate==0) {
+                        $("#calendar tbody:last").append("<tr></tr>");
+                    }
+                    $("#calendar tbody:last").append("<td class='date'>"+ i +"</td>");
+                }
+                if($("#calendar > tbody > td").length%7!=0) { //마지막 줄 빈칸
+                    for(i=1; i<= $("#calendar > tbody > td").length%7; i++) {
+                        $("#calendar tbody:last").append("<td></td>");
+                    }
+                }
+                $(".date").each(function(index){ // 오늘 날짜 표시
+                    if(nowYear==date.getFullYear() && nowMonth==date.getMonth() && $(".date").eq(index).text()==date.getDate()) {
+                        $(".date").eq(index).addClass('colToday');
+                    }
+                })
             }
-            else{
-                return 28;
-            }
-        }
-    }
-    function prevmonth(){ //이전 월로 가는 함수
-        var ymda = document.getElementById("prev");
-        var yg = document.getElementById("Ymd");
-        month--; //month를 계속 감소시켜준다
-        if(month < 1){ // month가 1보다 작아지면
-            month = 12; // month를 12로 만들어줌
-            year -= 1; //year를 1 감소시켜준다
-        }
-        if(year < 1970){
-            alert("기원전");
-             for(var i=1;i<100;i--){
-            window.top.moveTo(i ,i *=-1);
-            }
-        }
-        var ymda = year + "년" +" "+ (month)+"월";
-        present();
-    }
-    function nextmonth(){  //다음 월로 가는 함수
-        var ymda = document.getElementById("next");
-        var yg = document.getElementById("Ymd");
-        month++; //month 를 계속 증가시켜줌
-        if(month > 12){ //만약 month가 12를 넘어가면
-            month = 1; // month를 1로 만듦
-            year += 1; //year을 1 증가시켜준다
-        }
-        var ymda = year + "년" +" "+ month+"월";
-        present(); //present()함수를 호출하여 다시 찍어줌
-    }
-    function present(){
-        var start = new Date(year, month-1, 1);
-        var ymda = document.getElementById("Ymd");
-        var Tab = document.getElementById("tab");
-        var row = null;
-        var cnt = 0;
-        var row_count = 1;
-        var ym = year + "년" +" "+ (month)+"월";
-        ymda.innerHTML = ym;
-        while(tab.rows.length >2){     //테이블의 행의 길이가 2보다 크면 테이블의 행 제거함.
-            tab.deleteRow(tab.rows.length -1);
-        }
-        row = Tab.insertRow();
-        for(var j = 0; j<start.getDay(); j++){ //달력의 시작 일 구함
-            cell = row.insertCell();
-            cnt+=1;
-        }
-        for(var i = 1; i<= dayy(year, month); i++){ //달력 일수만큼 찍어줌
-            var cell = row.insertCell();
-            if(year == date.getFullYear() && month-1 == date.getMonth() && i == date.getDate()){
-                cell.innerHTML = "<div class='calendar_cell'>"+i+"</div>"+"<a class='calendar_a_tag_example'>"+"</a>";
-            }else{
-                cell.innerHTML = "<div>"+i+"</div>";
-            }
-
-            cnt += 1;
-
-            if(cnt%7 ==0){ //cnt가 7이면 행을 늘려줌
-                row = tab.insertRow();
-                row_count += 1;
-            }
-
-        }
-        for(var k = 0; k < row_count*7 - cnt; k++){
-            cell = row.insertCell();
-        }
-    }
-
+            buildCalendar();
+        })
 </script>
-<body class="main_footer_wrap">
+
 {% endblock %}
 
 {% block content %}
-<main>
-    <div class="main_wrap">
-        <div class="calendar">
-            <table class="main_calendar" id="tab">
-                <tr>
-                    <td class="calendar_prev" id="prev"><label class="calendar_label" onclick="prevmonth()"><</td>
-                    <td class="calendar_year_month" id="Ymd" colspan="5"></td>
-                    <td class="calendar_next" id="next"><label class="calendar_label" onclick="nextmonth()">></td>
-                </tr>
-                <tr class="calendar_weekday">
-                    <td class="week_sun">일</td>
-                    <td class="week_mon">월</td>
-                    <td class="week_tue">화</td>
-                    <td class="week_wed">수</td>
-                    <td class="week_thu">목</td>
-                    <td class="week_fri">금</td>
-                    <td class="week_sat">토</td>
-                </tr>
-            </table>
-            <script type="text/javascript">
-                        present();
 
-            </script>
-        </div>
-    </div>
-</main>
+
+<table id="calendar">
+    <thead>
+    <tr>
+        <th><input name="preMon" type="button" value="<"></th>
+        <th colspan="5" class="year_mon"></th>
+        <th><input name="nextMon" type="button" value=">"></th>
+    </tr>
+    <tr>
+        <th class="sun">일</th>
+        <th>월</th>
+        <th>화</th>
+        <th>수</th>
+        <th>목</th>
+        <th>금</th>
+        <th class="sat">토</th>
+    </tr>
+
+    </thead>
+    <tbody>
+    </tbody>
+
+</table>
+
+<style>
+        table {
+            clear: both;
+            width: 100%;
+            text-align: center;
+        }
+        th {
+            height: 70px;
+            background-color: pink;
+        }
+        td {
+            height: 80px;
+            width: 70px;
+            background-color: #FFFDC5;
+        }
+        input {
+            width: 70px;
+            border: none;
+            background-color: pink;
+            font-size: 30px;
+        }
+        .year_mon{
+            font-size: 25px;
+        }
+        .colToday{
+            background-color: #FFA07A;
+        }
+        .sat{
+            color: blue;
+        }
+        .sun{
+            color: red;
+        }
+        .date {
+            height: 110px;
+        }
+</style>
+
 {% endblock %}
