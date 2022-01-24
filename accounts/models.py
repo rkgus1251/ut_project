@@ -11,8 +11,6 @@ class User(AbstractUser):
         LOCAL = "local", "로컬"
         KAKAO = "kakao", "카카오"
 
-    avatar = models.ImageField('아바타', blank=True, upload_to="accounts/avatar/%Y/%m/%d",
-                               help_text="100px * 100px 크기의 gif/png/jpg 이미지를 업로드해주세요.")
     provider_type_code = models.CharField('프로바이더 타입코드', max_length=20, choices=ProviderTypeCodeChoices.choices,
                                           default=ProviderTypeCodeChoices.LOCAL)
     provider_accounts_id = models.PositiveIntegerField('프로바이더 회원번호', default=0)

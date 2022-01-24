@@ -1,0 +1,36 @@
+{% block content %}
+<div>
+    <table>
+        <thead>
+        <tr class="head">
+            <th>날짜</th>
+            <th>제목</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% if schedule_list %}
+        {% for date in schedule_list %}
+        <tr class="body">
+            <td>{{ date.date }}</td>
+            <td>
+                <a href="{% url 'ut_calendar:schedule_detail' date.id %}">{{ date.subject }}</a>
+            </td>
+        </tr>
+        {% endfor %}
+        {% else %}
+        <tr>
+            <td>일정 없음</td>
+        </tr>
+        {% endif %}
+        </tbody>
+    </table>
+    <a href="{% url 'ut_calendar:schedule_create' %}">일정 추가</a>
+</div>
+
+<style>
+    .head {
+
+    }
+</style>
+
+{% endblock %}

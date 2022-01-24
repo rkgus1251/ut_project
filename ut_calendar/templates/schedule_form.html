@@ -1,0 +1,36 @@
+{% block content %}
+<div>
+    <h5>일정 등록</h5>
+    <form method="post" action="{% url 'ut_calendar:schedule_create' %}">
+        {% csrf_token %}
+        <!--        오류 표시-->
+        {% if form.errors %}
+            <div role="alert">
+            {% for field in form %}
+                {% if field.errors %}
+                <strong>{{ field.label }}</strong>
+                {{ field.errors }}
+                {% endif %}
+            {% endfor %}
+            </div>
+        {% endif %}
+
+        <div>
+            <label for="subject">제목</label>
+            <input type="text"name="subject" id="subject" value="{{ form.subject.value|default_if_none:'' }}">
+        </div>
+        <div>
+            <label for="date">날짜</label>
+            <input type="date" name="date" id="date">
+        </div>
+        <div>
+            <label for="content">내용</label>
+            <textarea name="content" id="content" rows="10">{{ form.content.value|default_if_none:''}}</textarea>
+        </div>
+
+
+<!--        {{ form.as_p }}-->
+        <button type="submit">저장</button>
+    </form>
+</div>
+{% endblock %}
