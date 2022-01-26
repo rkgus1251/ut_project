@@ -21,6 +21,9 @@
             <li>
                 <a class="nav-link" href="{% url 'ut_calendar:schedule_create' %}"><i class="bi bi-calendar-plus"></i>일정 추가</a>
             </li>
+            <li>
+                <a href="{% url 'ut_calendar:schedule_list' %}" class="nav-link"><i class="bi bi-calendar-plus"></i>일정 확인</a>
+            </li>
             {% else %}
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'accounts:signin' %}?next={{request.path}}"><i

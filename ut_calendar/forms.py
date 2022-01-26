@@ -7,16 +7,15 @@ class DateInput(forms.DateInput) :
 
 
 class ScheduleForm(forms.ModelForm) :
+
     class Meta :
         model = Date
         fields = ['date', 'subject', 'content']
         widgets = {
             'date' : DateInput(),
-            # 'subject' : forms.TextInput(attrs={'class':'form-control'}),
-            # 'content' : forms.Textarea(attrs={'class' : 'form-control', 'rows' : 10}),
         }
         labels = {
             'date' : '날짜',
-            'subject' : '제목',
+            'subject' : '진료명',
             'content' : '내용',
         }

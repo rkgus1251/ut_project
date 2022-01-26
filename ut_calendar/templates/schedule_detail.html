@@ -1,3 +1,8 @@
+{% extends "layout.html" %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+
 <h1>{{ date.subject }}</h1>
 
 <div>
@@ -5,3 +10,14 @@
     <br>
     {{ date.content }}
 </div>
+
+<style>
+    h1 {
+        text-align: center;
+    }
+    div {
+        font-weight: bold;
+        text-align: center;
+    }
+</style>
+{% endblock %}

@@ -1,26 +1,7 @@
 {% extends "layout.html" %}
 {% load django_bootstrap5 %}
 
-{% block script %}
-<script language="JavaScript">
-    function MySliderBox1__init(){
-        var swiper = new Swiper(".my-slider-box-1 .mySwiper", {
-            pagination: {
-                el: ".swiper-pagination",
-                clickable: true,
-                renderBullet: function (index, className) {
-                    return '<span class="' + className + '">' + (index + 1) + "</span>";
-                },
-            }
-        });
-    }
-    MySliderBox1__init();
 
-
-
-
-</script>
-{% endblock %}
 
 {% block content %}
 
@@ -28,47 +9,11 @@
 <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 
 
-<div class="my-slider-box-1">
-    <div class="swiper mySwiper">
-        <div class="swiper-wrapper">
-            <div class="swiper-slide">{% include 'calendar.html' %}</div>
-            <div class="swiper-slide">{% include 'schedule_list.html' %}</div>
-            <div class="swiper-slide">{% include 'schedule_form.html' %}</div>
-
-        </div>
-        <div class="swiper-pagination"></div>
-    </div>
-</div>
+{% include 'calendar.html' %}
 
 <style>
 body {
   margin: 0;
-}
-
-.my-slider-box-1 .swiper-slide {
-    height: calc(100vh - 115px);
-}
-
-.swiper-pagination {
-  display: flex;
-  justify-content: space-around;
-}
-
-.swiper-pagination-bullet {
-  width: 30px;
-  height: 30px;
-  text-align: center;
-  line-height: 20px;
-  font-size: 15px;
-  margin: 10px;
-  color: #000;
-  opacity: 1;
-  background: rgba(0, 0, 0, 0.4);
-}
-
-.swiper-pagination-bullet-active {
-  color: #fff;
-  background: #007aff;
 }
 
 
