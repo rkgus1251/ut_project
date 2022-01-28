@@ -7,5 +7,4 @@ urlpatterns = [
     path('', views.index, name='schedule_list'),
     path('<int:date_id>/', views.detail, name='schedule_detail'),
     path('create/', views.schedule_create, name='schedule_create'),
-    path('calendar/', views.ex),
 ]

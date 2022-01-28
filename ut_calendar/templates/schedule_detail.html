@@ -2,14 +2,21 @@
 {% load django_bootstrap5 %}
 
 {% block content %}
+<tbody>
+{% if date %}
+<tr class="body">
+    <h1>{{ date.subject }}</h1>
+    <div>
+        {{ date.date }}
+        <br>
+        {{ date.content }}
+    </div>
+    <a href="{% url 'ut_calendar:schedule_list' %}">일정 확인</a>
 
-<h1>{{ date.subject }}</h1>
+</tr>
 
-<div>
-    {{ date.date }}
-    <br>
-    {{ date.content }}
-</div>
+{% endif %}
+</tbody>
 
 <style>
     h1 {
@@ -19,5 +26,6 @@
         font-weight: bold;
         text-align: center;
     }
+
 </style>
 {% endblock %}
